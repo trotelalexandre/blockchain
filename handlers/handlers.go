@@ -15,20 +15,15 @@ func GetBlockchain(bc *blockchain.Blockchain) http.HandlerFunc {
 	}
 }
 
-func AddTransaction(bc *blockchain.Blockchain) http.HandlerFunc {
+func SendTransaction(bc *blockchain.Blockchain) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var transactions []blockchain.Transaction
-		miner := r.URL.Query().Get("miner")
-		if miner == "" {
-			http.Error(w, "Miner address is required", http.StatusBadRequest)
-			return
-		}
-		if err := json.NewDecoder(r.Body).Decode(&transactions); err != nil {
+		var transaction blockchain.Transaction
+		if err := json.NewDecoder(r.Body).Decode(&transaction); err != nil {
 			http.Error(w, "Invalid transaction data", http.StatusBadRequest)
 			return
 		}
-		bc.AddBlock(transactions, miner)
+		bc.AddTransaction(transaction)
 		w.WriteHeader(http.StatusCreated)
-		fmt.Fprintln(w, "Block added successfully")
+		fmt.Fprintln(w, "Transaction added successfully")
 	}
 }

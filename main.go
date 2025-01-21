@@ -12,11 +12,16 @@ func main() {
 	bc := &blockchain.Blockchain{
 		Blocks: []*blockchain.Block{genesisBlock},
 		Reward: 50,
+		Name: "ProtoChain",
+		Coin: blockchain.Coin{
+			Name: "ProtoCoin",
+			Symbol: "PRT",
+		},
 	}
 
 	http.HandleFunc("/blockchain", handlers.GetBlockchain(bc))
-	http.HandleFunc("/add", handlers.AddTransaction(bc))
+	http.HandleFunc("/transaction", handlers.SendTransaction(bc))
 
-	fmt.Println("Server is running on port 8080")
+	fmt.Println("ProtoChain is running on :8080")
 	http.ListenAndServe(":8080", nil)
 }
