@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/trotelalexandre/protochain/utils"
+	"github.com/trotelalexandre/proto/utils"
 )
 
 type Blockchain struct {

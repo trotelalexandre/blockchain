@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/trotelalexandre/protochain/utils"
+	"github.com/trotelalexandre/proto/utils"
 )
 
 type Block struct {

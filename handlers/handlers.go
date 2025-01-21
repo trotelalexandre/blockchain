@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/trotelalexandre/protochain/blockchain"
+	"github.com/trotelalexandre/proto/blockchain"
 )
 
 func GetBlockchain(bc *blockchain.Blockchain) http.HandlerFunc {
