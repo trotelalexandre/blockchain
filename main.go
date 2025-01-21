@@ -23,6 +23,6 @@ func main() {
 	http.HandleFunc("/blockchain", handlers.GetBlockchain(bc))
 	http.HandleFunc("/transaction", handlers.SendTransaction(bc))
 
-	fmt.Println("proto is running on :8080")
+	fmt.Println("Proto is running on :8080")
 	http.ListenAndServe(":8080", nil)
 }
