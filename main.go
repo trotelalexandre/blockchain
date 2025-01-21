@@ -1,10 +1,10 @@
 package main
 
 import (
-	"blockchain/blockchain"
-	"blockchain/handlers"
 	"fmt"
 	"net/http"
+	"protochain/blockchain"
+	"protochain/handlers"
 )
 
 func main() {

@@ -1,7 +1,7 @@
 package blockchain
 
 import (
-	"blockchain/utils"
+	"protochain/utils"
 	"sync"
 	"time"
 )

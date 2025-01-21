@@ -1,3 +1,3 @@
-module blockchain
+module protochain
 
 go 1.23.5

@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"blockchain/blockchain"
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"protochain/blockchain"
 )
 
 func GetBlockchain(bc *blockchain.Blockchain) http.HandlerFunc {
