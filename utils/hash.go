@@ -6,8 +6,16 @@ import (
 	"fmt"
 )
 
-func CalculateHash(block Block) string {
-	hashInput := fmt.Sprintf("%d%s%s%s", block.Index, block.Timestamp, block.PrevHash, block.Transactions)
+type BlockData struct {
+	Index        int
+	Timestamp    string
+	PrevHash     string
+	Transactions string
+	Reward       int
+}
+
+func CalculateHash(data BlockData) string {
+	hashInput := fmt.Sprintf("%d%s%s%s%d", data.Index, data.Timestamp, data.PrevHash, data.Transactions, data.Reward)
 	hash := sha256.Sum256([]byte(hashInput))
 	return hex.EncodeToString(hash[:])
 }

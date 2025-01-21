@@ -5,3 +5,4 @@ type Transaction struct {
 	Recipient string
 	Amount    int
 }
+

@@ -1,6 +1,10 @@
 package blockchain
 
-import "time"
+import (
+	"blockchain/utils"
+	"fmt"
+	"time"
+)
 
 type Block struct {
 	Index        int
@@ -8,6 +12,7 @@ type Block struct {
 	Hash         string
 	Transactions []Transaction
 	PrevHash     string
+	Reward	     int
 }
 
 func CreateGenesisBlock() *Block {
@@ -16,7 +21,18 @@ func CreateGenesisBlock() *Block {
 		Timestamp:    time.Now().String(),
 		Transactions: []Transaction{},
 		PrevHash:     "0",
+		Reward:       100,
 	}
-	genesisBlock.Hash = CalculateHash(*genesisBlock)
+	genesisBlock.Hash = utils.CalculateHash(genesisBlock.ToBlockData())
 	return genesisBlock
+}
+
+func (b *Block) ToBlockData() utils.BlockData {
+	return utils.BlockData{
+		Index:        b.Index,
+		Timestamp:    b.Timestamp,
+		PrevHash:     b.PrevHash,
+		Transactions: fmt.Sprintf("%v", b.Transactions),
+		Reward:       b.Reward,
+	}
 }

@@ -1,15 +1,18 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
 	"blockchain/blockchain"
 	"blockchain/handlers"
+	"fmt"
+	"net/http"
 )
 
 func main() {
 	genesisBlock := blockchain.CreateGenesisBlock()
-	bc := &blockchain.Blockchain{Blocks: []*blockchain.Block{genesisBlock}}
+	bc := &blockchain.Blockchain{
+		Blocks: []*blockchain.Block{genesisBlock},
+		Reward: 50,
+	}
 
 	http.HandleFunc("/blockchain", handlers.GetBlockchain(bc))
 	http.HandleFunc("/add", handlers.AddTransaction(bc))
