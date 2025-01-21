@@ -1,9 +1,10 @@
 package blockchain
 
 import (
-	"protochain/utils"
 	"sync"
 	"time"
+
+	"github.com/trotelalexandre/protochain/utils"
 )
 
 type Blockchain struct {

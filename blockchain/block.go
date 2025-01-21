@@ -2,8 +2,9 @@ package blockchain
 
 import (
 	"fmt"
-	"protochain/utils"
 	"time"
+
+	"github.com/trotelalexandre/protochain/utils"
 )
 
 type Block struct {

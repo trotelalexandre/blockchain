@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"protochain/blockchain"
+
+	"github.com/trotelalexandre/protochain/blockchain"
 )
 
 func GetBlockchain(bc *blockchain.Blockchain) http.HandlerFunc {

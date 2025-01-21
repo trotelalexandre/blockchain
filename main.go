@@ -3,8 +3,9 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"protochain/blockchain"
-	"protochain/handlers"
+
+	"github.com/trotelalexandre/protochain/blockchain"
+	"github.com/trotelalexandre/protochain/handlers"
 )
 
 func main() {
