@@ -1,6 +1,11 @@
-# Blockchain
+# ProtoChain
 
 A simple blockchain written in Go to understand how it works.
+
+## Details
+
+- **Name**: ProtoChain
+- **Coin**: Proto (PRT)
 
 ## TODO
 
