@@ -16,6 +16,7 @@ func handler(next http.HandlerFunc) http.HandlerFunc {
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")         // Allow necessary headers
 
 		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusOK)
 			return
 		}
 
