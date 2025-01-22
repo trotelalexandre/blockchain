@@ -11,9 +11,9 @@ import (
 
 func main() {
 	coin := blockchain.Coin{
-		Name: "Proto",
-		Symbol: "PRT",
-		Decimals: 18,
+		Name:        "Proto",
+		Symbol:      "PRT",
+		Decimals:    18,
 		TotalSupply: 10000000 * int(math.Pow10(18)), // 10,000,000 PRT
 	}
 
@@ -21,8 +21,8 @@ func main() {
 	bc := &blockchain.Blockchain{
 		Blocks: []*blockchain.Block{genesisBlock},
 		Reward: 50,
-		Name: "Proto",
-		Coin: coin,
+		Name:   "Proto",
+		Coin:   coin,
 	}
 
 	http.HandleFunc("/blockchain", handlers.GetBlockchain(bc))
