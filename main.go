@@ -31,15 +31,15 @@ func main() {
 			return
 		}
 	}
-    log.Println("Protochain loaded successfully")
+	log.Println("Protochain loaded successfully")
 
-    config, err := config.LoadConfig("config.json")
+	config, err := config.LoadConfig("config.json")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-    node := node.Node{
-		Config:    *config,
+	node := node.Node{
+		Config:     *config,
 		Blockchain: bc,
 	}
 
@@ -47,5 +47,5 @@ func main() {
 
 	go node.SyncBlockchain()
 
-    select {}
+	select {}
 }
