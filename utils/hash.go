@@ -10,7 +10,7 @@ import (
 
 type BlockData struct {
 	Index        int
-	Timestamp    string
+	Timestamp    int64
 	PrevHash     string
 	Transactions string
 	Reward       int

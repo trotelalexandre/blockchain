@@ -9,7 +9,7 @@ import (
 
 type Block struct {
 	Index        int
-	Timestamp    string
+	Timestamp    int64
 	Hash         string
 	Transactions []Transaction
 	PrevHash     string
@@ -19,7 +19,7 @@ type Block struct {
 func CreateGenesisBlock(coin Coin) *Block {
 	genesisBlock := &Block{
 		Index:        0,
-		Timestamp:    time.Now().String(),
+		Timestamp:    time.Now().UnixNano(),
 		Transactions: []Transaction{},
 		PrevHash:     "0",
 		Reward:       ToDecimals(100, coin),
