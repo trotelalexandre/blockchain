@@ -10,7 +10,7 @@ type Wallet struct {
 }
 
 func GenerateAddress() string {
-	return "0x" + utils.GenerateUniqueAddress()
+	return "proto" + utils.GenerateUniqueAddress()
 }
 
 func AddWallet() *Wallet {
