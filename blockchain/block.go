@@ -1,39 +1,35 @@
 package blockchain
 
 import (
-	"fmt"
 	"time"
 
-	"github.com/trotelalexandre/proto/utils"
+	"github.com/trotelalexandre/proto/common"
 )
 
 type Block struct {
 	Index        int
-	Timestamp    int64
+	Timestamp    time.Time
+	Data 		 []Transaction
+	PreviousHash string
 	Hash         string
-	Transactions []Transaction
-	PrevHash     string
-	Reward	     int
 }
 
 func CreateGenesisBlock(coin Coin) *Block {
 	genesisBlock := &Block{
 		Index:        0,
-		Timestamp:    time.Now().Unix(),
-		Transactions: []Transaction{},
-		PrevHash:     "0",
-		Reward:       ToDecimals(100, coin),
+		Timestamp:    time.Now(),
+		Data:         []Transaction{},
+		PreviousHash: "0",
+		Hash:         "",
 	}
-	genesisBlock.Hash = utils.CalculateHash(genesisBlock.ToBlockData())
+	genesisBlock.Hash = common.HashData(genesisBlock.ToBlockData())
 	return genesisBlock
 }
 
-func (b *Block) ToBlockData() utils.BlockData {
-	return utils.BlockData{
-		Index:        b.Index,
-		Timestamp:    b.Timestamp,
-		PrevHash:     b.PrevHash,
-		Transactions: fmt.Sprintf("%v", b.Transactions),
-		Reward:       b.Reward,
+func (b *Block) ToBlockData() []byte {
+	data := []byte{}
+	for _, transaction := range b.Data {
+		data = append(data, transaction.ToTransactionData()...)
 	}
+	return append(data, []byte(b.PreviousHash)...)
 }

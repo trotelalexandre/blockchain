@@ -1,22 +1,22 @@
 package blockchain
 
-import "github.com/trotelalexandre/proto/utils"
+import (
+	"fmt"
+
+	"github.com/trotelalexandre/proto/common"
+)
 
 type Transaction struct {
-	Hash	  string
 	Sender    string
 	Recipient string
-	Amount    int
+	Value     int64
 }
 
-func GenerateTransactionHash(sender, recipient string, amount int) string {
-	return utils.CalculateTransactionHash(ToTransactionData(sender, recipient, amount))
+func GenerateTransactionHash(transaction Transaction) string {
+	data := transaction.ToTransactionData()
+	return common.HashData(data)
 }
 
-func ToTransactionData(sender, recipient string, amount int) utils.TransactionData {
-	return utils.TransactionData{
-		Sender:    sender,
-		Recipient: recipient,
-		Amount:    amount,
-	}
+func (t *Transaction) ToTransactionData() []byte {
+	return []byte(t.Sender + t.Recipient + fmt.Sprintf("%d", t.Value))
 }
