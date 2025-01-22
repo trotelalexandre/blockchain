@@ -3,6 +3,7 @@ package node
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -21,17 +22,20 @@ type Node struct {
     Blockchain *blockchain.Blockchain
 }
 
-func (n *Node) StartNode(node Node, blockchain *blockchain.Blockchain) {
-    http.HandleFunc("/blockchain", func(w http.ResponseWriter, r *http.Request) {
-        json.NewEncoder(w).Encode(blockchain)
+func (n *Node) StartNode() {
+    http.HandleFunc("/protochain", func(w http.ResponseWriter, r *http.Request) {
+        json.NewEncoder(w).Encode(n.Blockchain)
     })
 
-    log.Println("Node started at", node.Config.Address)
-    log.Fatal(http.ListenAndServe(node.Config.Address, nil))
+    log.Println("Node started at", n.Config.Address, "on port", n.Config.Port)
+    err := http.ListenAndServe(fmt.Sprintf("%s:%d", n.Config.Address, n.Config.Port), nil)
+	if err != nil {
+		log.Printf("Error starting server: %v", err)
+	}
 }
 
-func (n *Node) ConnectToPeers(node Node) {
-    for _, peer := range node.Config.Peers {
+func (n *Node) ConnectToPeers() {
+    for _, peer := range n.Config.Peers {
         go n.SyncWithPeer(peer)
     }
 }
@@ -47,7 +51,7 @@ func (n *Node) SyncWithPeer(peer string) {
     var peerBlockchain blockchain.Blockchain
     err = json.NewDecoder(resp.Body).Decode(&peerBlockchain)
     if err != nil {
-        log.Printf("Error decoding blockchain from peer %s: %v", peer, err)
+        log.Printf("Error decoding Protochain from peer %s: %v", peer, err)
         return
     }
 
@@ -56,15 +60,17 @@ func (n *Node) SyncWithPeer(peer string) {
 
 func (n *Node) SyncBlockchainIfLonger(peerBlockchain blockchain.Blockchain) {
     if len(peerBlockchain.Blocks) > len(n.Blockchain.Blocks) {
-        log.Println("Found a longer blockchain, syncing...")
+        log.Println("Found a longer Protochain, syncing...")
         *n.Blockchain = peerBlockchain
+    } else {
+        log.Println("Protochain is up to date")
     }
 }
 
-func (n *Node) SyncBlockchain(node Node) {
+func (n *Node) SyncBlockchain() {
     ticker := time.NewTicker(30 * time.Second)
     for range ticker.C {
-        n.ConnectToPeers(node)
+        n.ConnectToPeers()
     }
 }
 

@@ -1,0 +1,5 @@
+{
+  "Address": "localhost",
+  "Port": 8080,
+  "Peers": ["http://localhost:8081"]
+}

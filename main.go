@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/trotelalexandre/proto/blockchain"
+	"github.com/trotelalexandre/proto/config"
 	"github.com/trotelalexandre/proto/node"
 )
 
@@ -32,14 +33,19 @@ func main() {
 	}
     log.Println("Protochain loaded successfully")
 
-	node := node.Node{
-        Config: node.NodeConfig{
-            Address: "localhost:3000",
-            Port:    3000,
-            Peers:   []string{"http://localhost:3001"},
-        },
-        Blockchain: bc,
-    }
-	node.StartNode(node, bc)
-	node.ConnectToPeers(node)
+    config, err := config.LoadConfig("config.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+    node := node.Node{
+		Config:    *config,
+		Blockchain: bc,
+	}
+
+	go node.StartNode()
+
+	go node.SyncBlockchain()
+
+    select {}
 }
