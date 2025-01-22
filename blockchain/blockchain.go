@@ -24,7 +24,8 @@ func (bc *Blockchain) AddBlock(miner string) {
 	transactions := bc.PendingTransactions
 
 	rewardTransaction := Transaction{
-		Sender:    "System",
+		Hash:      utils.CalculateTransactionHash(utils.TransactionData{Sender: "Proto", Recipient: miner, Amount: bc.Reward}),
+		Sender:    "Proto",
 		Recipient: miner,
 		Amount:    bc.Reward,
 	}

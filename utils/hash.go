@@ -16,8 +16,20 @@ type BlockData struct {
 	Reward       int
 }
 
+type TransactionData struct {
+	Sender    string
+	Recipient string
+	Amount    int
+}
+
 func CalculateHash(data BlockData) string {
 	hashInput := fmt.Sprintf("%d%s%s%s%d", data.Index, data.Timestamp, data.PrevHash, data.Transactions, data.Reward)
+	hash := sha256.Sum256([]byte(hashInput))
+	return hex.EncodeToString(hash[:])
+}
+
+func CalculateTransactionHash(data TransactionData) string {
+	hashInput := fmt.Sprintf("%s%s%d", data.Sender, data.Recipient, data.Amount)
 	hash := sha256.Sum256([]byte(hashInput))
 	return hex.EncodeToString(hash[:])
 }
