@@ -1,6 +1,7 @@
 package node
 
 import (
+	"bytes"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -59,5 +60,21 @@ func (n *Node) SyncBlockchain(node Node) {
     ticker := time.NewTicker(30 * time.Second)
     for range ticker.C {
         n.ConnectToPeers(node)
+    }
+}
+
+func (n *Node) BroadcastTransaction(transaction blockchain.Transaction) {
+    for _, peer := range n.Peers {
+        go func(peer string) {
+            data, err := json.Marshal(transaction)
+            if err != nil {
+                log.Printf("Error marshalling transaction: %v", err)
+                return
+            }
+            _, err = http.Post(peer+"/transaction", "application/json", bytes.NewBuffer(data))
+            if err != nil {
+                log.Printf("Error broadcasting transaction to peer %s: %v", peer, err)
+            }
+        }(peer)
     }
 }

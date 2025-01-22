@@ -1,7 +1,9 @@
 package blockchain
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/trotelalexandre/proto/common"
@@ -61,6 +63,31 @@ func (bc *Blockchain) AddBlock(transactions []Transaction) error {
     }
 
     bc.Blocks = append(bc.Blocks, newBlock)
+    err := bc.SaveToFile("blockchain_data.json")
+    if err != nil {
+        return fmt.Errorf("failed to save blockchain: %v", err)
+    }
     return nil
 }
 
+func (bc *Blockchain) SaveToFile(filename string) error {
+    data, err := json.Marshal(bc)
+    if err != nil {
+        return err
+    }
+    return os.WriteFile(filename, data, 0644)
+}
+
+func LoadBlockchainFromFile(filename string) (*Blockchain, error) {
+    data, err := os.ReadFile(filename)
+    if err != nil {
+        return nil, err
+    }
+
+    var blockchain Blockchain
+    err = json.Unmarshal(data, &blockchain)
+    if err != nil {
+        return nil, err
+    }
+    return &blockchain, nil
+}
