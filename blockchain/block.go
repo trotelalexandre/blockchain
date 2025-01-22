@@ -16,13 +16,13 @@ type Block struct {
 	Reward	     int
 }
 
-func CreateGenesisBlock() *Block {
+func CreateGenesisBlock(coin Coin) *Block {
 	genesisBlock := &Block{
 		Index:        0,
 		Timestamp:    time.Now().String(),
 		Transactions: []Transaction{},
 		PrevHash:     "0",
-		Reward:       100,
+		Reward:       ToDecimals(100, coin),
 	}
 	genesisBlock.Hash = utils.CalculateHash(genesisBlock.ToBlockData())
 	return genesisBlock

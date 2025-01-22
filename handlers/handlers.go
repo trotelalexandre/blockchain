@@ -28,3 +28,12 @@ func SendTransaction(bc *blockchain.Blockchain) http.HandlerFunc {
 		fmt.Fprintln(w, "Transaction added successfully")
 	}
 }
+
+func AddWallet(bc *blockchain.Blockchain) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		wallet := blockchain.AddWallet()
+		bc.AddWallet(wallet)
+		w.WriteHeader(http.StatusCreated)
+		json.NewEncoder(w).Encode(wallet)
+	}
+}

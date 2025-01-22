@@ -14,6 +14,7 @@ type Blockchain struct {
 	Name   string
 	Coin   Coin
 	PendingTransactions []Transaction
+	State map[string]int // Wallet address to balance
 }
 
 func (bc *Blockchain) AddBlock(miner string) {
@@ -53,4 +54,10 @@ func (bc *Blockchain) AddTransaction(transaction Transaction) {
 	bc.Mux.Lock()
 	defer bc.Mux.Unlock()
 	bc.PendingTransactions = append(bc.PendingTransactions, transaction)
+}
+
+func (bc *Blockchain) AddWallet(wallet *Wallet) {
+	bc.Mux.Lock()
+	defer bc.Mux.Unlock()
+	bc.State[wallet.Address] = wallet.Balance
 }
