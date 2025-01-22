@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
 
 	"github.com/trotelalexandre/proto/blockchain"
 	"github.com/trotelalexandre/proto/node"
@@ -9,15 +11,35 @@ import (
 
 func main() {
 	coin := blockchain.Coin{Name: "ProtoCoin", Symbol: "PRT", Decimals: 18, TotalSupply: 10000000}
-	genesisBlock := blockchain.CreateGenesisBlock(coin)
-	bc := &blockchain.Blockchain{Blocks: []blockchain.Block{*genesisBlock}}
+	var bc *blockchain.Blockchain
 
-	err := bc.SaveToFile("protochain.json")
-	if err != nil {
-		fmt.Println("Error saving blockchain to file:", err)
+	_, err := os.Stat("protochain.json")
+	if err == nil {
+		bc, err = blockchain.LoadBlockchainFromFile("protochain.json")
+		if err != nil {
+			fmt.Println("Error loading Protochain from file:", err)
+			return
+		}
+	} else {
+		genesisBlock := blockchain.CreateGenesisBlock(coin)
+		bc = &blockchain.Blockchain{Blocks: []blockchain.Block{*genesisBlock}}
+
+		err := bc.SaveToFile("protochain.json")
+		if err != nil {
+			fmt.Println("Error saving Protochain to file:", err)
+			return
+		}
 	}
+    log.Println("Protochain loaded successfully")
 
-	node := node.Node{Address: "localhost:8080", Peers: []string{"localhost:8081"}, Blockchain: bc}
-	go node.StartNode(node, bc)
+	node := node.Node{
+        Config: node.NodeConfig{
+            Address: "localhost:3000",
+            Port:    3000,
+            Peers:   []string{"http://localhost:3001"},
+        },
+        Blockchain: bc,
+    }
+	node.StartNode(node, bc)
 	node.ConnectToPeers(node)
 }

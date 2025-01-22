@@ -10,9 +10,14 @@ import (
 	"github.com/trotelalexandre/proto/blockchain"
 )
 
+type NodeConfig struct {
+	Address string
+	Port    int
+	Peers   []string
+}
+
 type Node struct {
-    Address string
-    Peers   []string
+    Config    NodeConfig
     Blockchain *blockchain.Blockchain
 }
 
@@ -21,12 +26,12 @@ func (n *Node) StartNode(node Node, blockchain *blockchain.Blockchain) {
         json.NewEncoder(w).Encode(blockchain)
     })
 
-    log.Println("Node started at", node.Address)
-    log.Fatal(http.ListenAndServe(node.Address, nil))
+    log.Println("Node started at", node.Config.Address)
+    log.Fatal(http.ListenAndServe(node.Config.Address, nil))
 }
 
 func (n *Node) ConnectToPeers(node Node) {
-    for _, peer := range node.Peers {
+    for _, peer := range node.Config.Peers {
         go n.SyncWithPeer(peer)
     }
 }
@@ -64,7 +69,7 @@ func (n *Node) SyncBlockchain(node Node) {
 }
 
 func (n *Node) BroadcastTransaction(transaction blockchain.Transaction) {
-    for _, peer := range n.Peers {
+    for _, peer := range n.Config.Peers {
         go func(peer string) {
             data, err := json.Marshal(transaction)
             if err != nil {

@@ -7,6 +7,7 @@ import (
 )
 
 type Transaction struct {
+	Hash	  string
 	Sender    string
 	Recipient string
 	Value     int64
