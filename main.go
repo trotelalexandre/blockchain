@@ -28,6 +28,13 @@ func main() {
 	http.HandleFunc("/blockchain", handlers.GetBlockchain(bc))
 	http.HandleFunc("/transaction", handlers.SendTransaction(bc))
 	http.HandleFunc("/add-wallet", handlers.AddWallet(bc))
+	http.HandleFunc("/block-count", handlers.GetBlockCount(bc))
+	http.HandleFunc("/transaction-count", handlers.GetTransactionCount(bc))
+	http.HandleFunc("/wallet-count", handlers.GetWalletCount(bc))
+	http.HandleFunc("/block-reward", handlers.GetBlockReward(bc))
+	http.HandleFunc("/all-blocks", handlers.GetAllBlocks(bc))
+	http.HandleFunc("/all-transactions", handlers.GetAllTransactions(bc))
+	http.HandleFunc("/wallet-balance", handlers.GetWalletBalance(bc))
 
 	fmt.Println("Proto is running on :8080")
 	http.ListenAndServe(":8080", nil)
