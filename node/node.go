@@ -41,7 +41,7 @@ func (n *Node) ConnectToPeers() {
 }
 
 func (n *Node) SyncWithPeer(peer string) {
-    resp, err := http.Get(peer + "/blockchain")
+    resp, err := http.Get(peer + "/protochain")
     if err != nil {
         log.Printf("Error connecting to peer %s: %v", peer, err)
         return
