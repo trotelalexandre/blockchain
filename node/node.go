@@ -68,6 +68,7 @@ func (n *Node) SyncBlockchainIfLonger(peerBlockchain blockchain.Blockchain) {
 }
 
 func (n *Node) SyncBlockchain() {
+    n.ConnectToPeers()
     ticker := time.NewTicker(30 * time.Second)
     for range ticker.C {
         n.ConnectToPeers()
