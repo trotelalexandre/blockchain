@@ -23,7 +23,7 @@ type TransactionData struct {
 }
 
 func CalculateHash(data BlockData) string {
-	hashInput := fmt.Sprintf("%d%s%s%s%d", data.Index, data.Timestamp, data.PrevHash, data.Transactions, data.Reward)
+	hashInput := fmt.Sprintf("%d%d%s%s%d", data.Index, data.Timestamp, data.PrevHash, data.Transactions, data.Reward)
 	hash := sha256.Sum256([]byte(hashInput))
 	return hex.EncodeToString(hash[:])
 }
@@ -35,7 +35,7 @@ func CalculateTransactionHash(data TransactionData) string {
 }
 
 func GenerateUniqueAddress() string {
-    randSource := rand.New(rand.NewSource(time.Now().UnixNano()))
+    randSource := rand.New(rand.NewSource(time.Now().Unix()))
     randomBytes := make([]byte, 32)
     for i := range randomBytes {
         randomBytes[i] = byte(randSource.Intn(256))

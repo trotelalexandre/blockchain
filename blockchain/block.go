@@ -19,7 +19,7 @@ type Block struct {
 func CreateGenesisBlock(coin Coin) *Block {
 	genesisBlock := &Block{
 		Index:        0,
-		Timestamp:    time.Now().UnixNano(),
+		Timestamp:    time.Now().Unix(),
 		Transactions: []Transaction{},
 		PrevHash:     "0",
 		Reward:       ToDecimals(100, coin),

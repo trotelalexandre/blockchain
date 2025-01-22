@@ -35,7 +35,7 @@ func (bc *Blockchain) AddBlock(miner string) {
 
 	newBlock := &Block{
 		Index:        prevBlock.Index + 1,
-		Timestamp:    time.Now().UnixNano(),
+		Timestamp:    time.Now().Unix(),
 		Transactions: transactions,
 		PrevHash:     prevBlock.Hash,
 		Reward:       bc.Reward,
